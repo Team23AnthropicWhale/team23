@@ -1,0 +1,105 @@
+{
+  "form_id": "2",
+  "title": "Comprehensive Assessment Form",
+  "sections": [
+    {
+      "id": "case_info",
+      "title": "Case Information",
+      "fields": [
+        { "id": "date_started", "label": "Date assessment started", "type": "date" },
+        { "id": "date_completed", "label": "Date assessment completed", "type": "date", "optional": true },
+        { "id": "contact_type", "label": "Type of contact", "type": "enum", "options": ["home_visit", "meeting_other_location", "phone_call", "other"] },
+        { "id": "who_present", "label": "Who was present", "type": "multiselect", "options": ["child", "parent_caregiver", "other"] },
+        { "id": "who_present_other", "label": "Other present", "type": "string", "optional": true },
+        { "id": "is_reopened", "label": "Is this a reopened case", "type": "boolean" },
+        { "id": "previous_closure_date", "label": "Previous case closure date", "type": "date", "optional": true, "conditional": { "field": "is_reopened", "value": true } }
+      ]
+    },
+    {
+      "id": "current_situation",
+      "title": "Assessment of Current Situation",
+      "fields": [
+        { "id": "safety", "label": "1. Safety", "type": "text" },
+        { "id": "family_caregiving", "label": "2. Family and other caregiving arrangements", "type": "text" },
+        { "id": "physical_health", "label": "3. Physical health", "type": "text" },
+        { "id": "emotional_wellbeing", "label": "4. Emotional wellbeing", "type": "text" },
+        {
+          "id": "education_status",
+          "label": "5. Education status",
+          "type": "enum",
+          "options": ["no_learning", "formal_education", "other_learning"]
+        },
+        { "id": "education_detail", "label": "Education details", "type": "text", "optional": true },
+        { "id": "friends_social", "label": "6. Friends and social network", "type": "text" },
+        { "id": "work", "label": "7. Work", "type": "text" },
+        { "id": "legal_documentation", "label": "8. Legal situation and documentation", "type": "text" }
+      ]
+    },
+    {
+      "id": "incident_details",
+      "title": "Incident Details (Sensitive and Optional)",
+      "fields": [
+        { "id": "perpetrator_known", "label": "Is perpetrator known", "type": "boolean", "optional": true },
+        {
+          "id": "perpetrator_type",
+          "label": "Perpetrator type",
+          "type": "enum",
+          "optional": true,
+          "options": [
+            "family_member", "intimate_partner", "peer",
+            "formal_authority", "employer", "un_ngo_staff",
+            "armed_force", "other"
+          ],
+          "conditional": { "field": "perpetrator_known", "value": true }
+        },
+        { "id": "perpetrator_other", "label": "Other perpetrator", "type": "string", "optional": true },
+        { "id": "incident_location_known", "label": "Is incident location known", "type": "boolean", "optional": true },
+        {
+          "id": "incident_location",
+          "label": "Incident location",
+          "type": "enum",
+          "optional": true,
+          "options": [
+            "inside_home", "outside_home", "education_vocational",
+            "medical_facilities", "residential_care", "workplace",
+            "detention", "digital", "other"
+          ],
+          "conditional": { "field": "incident_location_known", "value": true }
+        },
+        { "id": "incident_location_other", "label": "Other location", "type": "string", "optional": true }
+      ]
+    },
+    {
+      "id": "child_views",
+      "title": "Views of the Child",
+      "fields": [
+        { "id": "child_views_wishes", "label": "Views and wishes of the child", "type": "text" },
+        { "id": "child_seen_individually", "label": "Was child seen individually", "type": "boolean" },
+        { "id": "caregiver_views_wishes", "label": "Views and wishes of parent/caregiver", "type": "text" }
+      ]
+    },
+    {
+      "id": "analysis",
+      "title": "Analysis of Situation",
+      "fields": [
+        { "id": "risk_factors", "label": "Risk factors", "type": "text" },
+        { "id": "protective_factors", "label": "Protective factors", "type": "text" },
+        { "id": "additional_notes", "label": "Additional notes", "type": "text", "optional": true },
+        { "id": "bid_required", "label": "Is formal Best Interests Determination (BID) required", "type": "boolean" }
+      ]
+    },
+    {
+      "id": "authorization",
+      "title": "Authorization",
+      "fields": [
+        { "id": "caseworker_name", "label": "Caseworker name", "type": "string" },
+        { "id": "caseworker_date", "label": "Date", "type": "date" },
+        { "id": "caseworker_signature", "label": "Signature", "type": "signature" },
+        { "id": "supervisor_name", "label": "Supervisor name", "type": "string" },
+        { "id": "supervisor_date", "label": "Date", "type": "date" },
+        { "id": "supervisor_signature", "label": "Signature", "type": "signature" },
+        { "id": "supervisor_comments", "label": "Supervisor comments", "type": "text", "optional": true }
+      ]
+    }
+  ]
+}
