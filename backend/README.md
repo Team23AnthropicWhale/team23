@@ -1,58 +1,140 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# WarChild Case Management — Backend API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A Laravel REST API that serves as the central server for the WarChild child protection case management system.
 
-## About Laravel
+## How the system works
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+This backend is **not** the primary data entry point. Caseworkers operate entirely offline in the field, filling in forms on their mobile devices. Data stays on the device until the caseworker returns to camp and syncs with a supervisor's device (app-to-app, no server involved). The supervisor reviews and validates all submissions, then sends the approved data to this backend.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
-
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
-
-## Learning Laravel
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
-
-## Agentic Development
-
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
-
-```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+```
+Caseworker (offline)
+    │  fills in forms locally
+    ▼
+Sync to supervisor device (app-to-app, no server)
+    │  supervisor validates
+    ▼
+POST to this backend
+    │
+    ▼
+Central database (this server)
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+**Only supervisors** interact with this API. Caseworkers never call it directly.
 
-## Contributing
+---
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Tech stack
 
-## Code of Conduct
+| Component | Version |
+|-----------|---------|
+| PHP | 8.5 |
+| Laravel | 13 |
+| Auth | Laravel Sanctum 4 |
+| Database | SQLite (dev) / configurable |
+| Tests | Pest 4 |
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+---
 
-## Security Vulnerabilities
+## Setup
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```bash
+# Install dependencies
+composer install
 
-## License
+# Copy environment file and configure your database
+cp .env.example .env
+php artisan key:generate
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+# Run migrations
+php artisan migrate
+
+# Seed demo users (optional)
+php artisan db:seed
+```
+
+Demo accounts created by the seeder:
+
+| Email | Password | Role |
+|-------|----------|------|
+| supervisor@team23.test | password | Supervisor |
+| caseworker@team23.test | password | Caseworker |
+| caseworker2@team23.test | password | Caseworker |
+
+---
+
+## Running tests
+
+```bash
+php artisan test --compact
+```
+
+---
+
+## Architecture
+
+### User roles
+
+| Role | Value | Access |
+|------|-------|--------|
+| Supervisor | `supervisor` | Full read/write access to cases and forms |
+| Caseworker | `case_worker` | Login only — cannot access case API |
+
+### Data model
+
+```
+cases
+ ├── form_1a_submissions    (Consent & Assent)
+ ├── form_1b_submissions    (Registration & Rapid Assessment)
+ │    ├── form_1b_household_members
+ │    ├── form_1b_family_members
+ │    └── form_1b_immediate_needs
+ └── form_2_submissions     (Comprehensive Assessment)
+```
+
+Each case can have at most one submission per form type. Submitting a form twice returns `422`.
+
+### API routes
+
+All case and form routes require a supervisor token (`Authorization: Bearer <token>`).
+
+```
+POST   /api/auth/login
+GET    /api/auth/me                          [auth]
+POST   /api/auth/logout                      [auth]
+
+GET    /api/cases                            [auth, supervisor]
+POST   /api/cases                            [auth, supervisor]
+GET    /api/cases/{case_id}                  [auth, supervisor]
+
+GET    /api/cases/{case_id}/form-1a          [auth, supervisor]
+POST   /api/cases/{case_id}/form-1a          [auth, supervisor]
+
+GET    /api/cases/{case_id}/form-1b          [auth, supervisor]
+POST   /api/cases/{case_id}/form-1b          [auth, supervisor]
+
+GET    /api/cases/{case_id}/form-2           [auth, supervisor]
+POST   /api/cases/{case_id}/form-2           [auth, supervisor]
+```
+
+### File structure
+
+```
+app/
+├── Enums/UserType.php
+├── Http/
+│   ├── Controllers/
+│   │   ├── Auth/               LoginController, LogoutController, MeController
+│   │   └── Cases/              CaseController, Form1aController, Form1bController, Form2Controller
+│   ├── Middleware/EnsureSupervisor.php
+│   ├── Requests/Cases/         StoreCase*, StoreForm1a*, StoreForm1b*, StoreForm2*
+│   └── Resources/              ChildCaseResource, Form*SubmissionResource
+└── Models/
+    ChildCase, Form1aSubmission, Form1bSubmission, Form2Submission,
+    Form1bFamilyMember, Form1bHouseholdMember, Form1bImmediateNeed
+```
+
+---
+
+## API reference
+
+See [docs/api.md](docs/api.md) for the full endpoint reference with request/response examples.
