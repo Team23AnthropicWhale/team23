@@ -44,4 +44,8 @@ export interface Case {
   type: string;
   encryptionDay: number;
   status: PillVariant;
+  alertLevel?: UrgencyLevel;
+  alertIssue?: string;
+  worker?: string;
+  sector?: string;
 }

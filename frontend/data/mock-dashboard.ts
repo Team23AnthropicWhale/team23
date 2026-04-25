@@ -59,6 +59,38 @@ export const MOCK_TASKS: Task[] = [
   },
 ];
 
+export const MOCK_SUPERVISOR_CASES: Case[] = [
+  {
+    avatar: { initials: 'E·M6', variant: 'red' },
+    id: 'CP-0312', type: 'Protection follow-up', encryptionDay: 8, status: 'urgent',
+    alertLevel: 'red', alertIssue: 'Overdue visit', worker: 'FW-01', sector: 'Sector A',
+  },
+  {
+    avatar: { initials: 'A·F7', variant: 'red' },
+    id: 'CP-0441', type: 'Unaccompanied minor', encryptionDay: 2, status: 'urgent',
+    alertLevel: 'amber', alertIssue: 'Form incomplete', worker: 'FW-05', sector: 'Sector B',
+  },
+  {
+    avatar: { initials: 'B·M11', variant: 'red' },
+    id: 'CP-0389', type: 'GBV — family violence', encryptionDay: 5, status: 'urgent',
+    alertLevel: 'amber', alertIssue: 'Referral awaiting sign-off', worker: 'FW-07', sector: 'Sector C',
+  },
+  {
+    avatar: { initials: 'C·F14', variant: 'blue' },
+    id: 'CP-0412', type: 'Psychosocial support', encryptionDay: 18, status: 'active',
+  },
+  {
+    avatar: { initials: 'D·M9', variant: 'amber' },
+    id: 'CP-0403', type: 'Family tracing & reunification', encryptionDay: 22, status: 'pending',
+  },
+];
+
+export const MOCK_APPROVALS = [
+  { id: 'APR-001', caseId: 'CP-0389', type: 'Referral request',     worker: 'FW-07', submittedAt: '2h ago'    },
+  { id: 'APR-002', caseId: 'CP-0441', type: 'BIA form sign-off',    worker: 'FW-05', submittedAt: '4h ago'    },
+  { id: 'APR-003', caseId: 'CP-0312', type: 'Case closure request', worker: 'FW-01', submittedAt: 'Yesterday' },
+];
+
 export const MOCK_CASES: Case[] = [
   {
     avatar: { initials: 'A·F7', variant: 'red' },
