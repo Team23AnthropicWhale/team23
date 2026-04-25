@@ -1,0 +1,111 @@
+{
+  "form_id": "1A",
+  "title": "Consent and Assent Form",
+  "sections": [
+    {
+      "id": "case_info",
+      "title": "Case Information",
+      "fields": [
+        { "id": "date_completed", "label": "Date form completed", "type": "date" },
+        { "id": "case_id", "label": "Case ID number", "type": "string" }
+      ]
+    },
+    {
+      "id": "child_personal",
+      "title": "Child Personal Details",
+      "fields": [
+        { "id": "first_name", "label": "First name", "type": "string" },
+        { "id": "middle_name", "label": "Middle name / Father's name", "type": "string", "optional": true },
+        { "id": "last_name", "label": "Last name / Family name", "type": "string" },
+        { "id": "other_names", "label": "Other names or spelling", "type": "string", "optional": true }
+      ]
+    },
+    {
+      "id": "consent_basis",
+      "title": "Legitimate basis for collecting information",
+      "fields": [
+        {
+          "id": "legal_basis",
+          "label": "Basis for collection",
+          "type": "enum",
+          "options": ["consent", "vital_interests"]
+        },
+        {
+          "id": "vital_interests_override",
+          "label": "Consent overridden by vital interests",
+          "type": "boolean"
+        }
+      ]
+    },
+    {
+      "id": "consent_obtained_from",
+      "title": "Consent or assent obtained from",
+      "fields": [
+        {
+          "id": "consent_from",
+          "label": "Consent obtained from",
+          "type": "multiselect",
+          "options": ["child", "one_parent_caregiver", "both_parents_caregivers", "other"],
+          "conditional": { "field": "vital_interests_override", "value": false }
+        },
+        {
+          "id": "consent_other_relationship",
+          "label": "Other relationship to child",
+          "type": "string",
+          "optional": true
+        },
+        {
+          "id": "assent_from",
+          "label": "Assent obtained from",
+          "type": "multiselect",
+          "options": ["child", "one_parent_caregiver", "both_parents_caregivers", "other"],
+          "conditional": { "field": "vital_interests_override", "value": false }
+        },
+        {
+          "id": "assent_other_relationship",
+          "label": "Other relationship to child",
+          "type": "string",
+          "optional": true
+        }
+      ]
+    },
+    {
+      "id": "permissions",
+      "title": "Permissions granted",
+      "fields": [
+        { "id": "permission_participation", "label": "Participation in case management process", "type": "boolean" },
+        { "id": "permission_data_collection", "label": "Collection and storing of personal information", "type": "boolean" },
+        { "id": "permission_data_sharing", "label": "Sharing of personal information for service provision", "type": "boolean" },
+        { "id": "permission_reporting", "label": "Sharing of non-identifiable information for reporting", "type": "boolean" },
+        { "id": "permission_tracing", "label": "Consent to disclose information for tracing purposes", "type": "boolean", "optional": true }
+      ]
+    },
+    {
+      "id": "withheld_information",
+      "title": "Information to withhold",
+      "fields": [
+        { "id": "has_withheld_info", "label": "Any information to withhold", "type": "boolean" },
+        { "id": "withheld_info_detail", "label": "Which information and/or agency", "type": "text", "conditional": { "field": "has_withheld_info", "value": true } },
+        { "id": "withheld_info_reason", "label": "Reason for withholding", "type": "text", "optional": true, "conditional": { "field": "has_withheld_info", "value": true } }
+      ]
+    },
+    {
+      "id": "authorization",
+      "title": "Authorization",
+      "fields": [
+        { "id": "child_name_auth", "label": "Child name", "type": "string", "optional": true },
+        { "id": "child_date_auth", "label": "Child date", "type": "date", "optional": true },
+        { "id": "child_signature", "label": "Child signature", "type": "signature", "optional": true },
+        { "id": "caregiver_name_auth", "label": "Parent/Caregiver name", "type": "string" },
+        { "id": "caregiver_date_auth", "label": "Parent/Caregiver date", "type": "date" },
+        { "id": "caregiver_signature", "label": "Parent/Caregiver signature", "type": "signature" },
+        { "id": "caseworker_name_auth", "label": "Caseworker name", "type": "string" },
+        { "id": "caseworker_date_auth", "label": "Caseworker date", "type": "date" },
+        { "id": "caseworker_signature", "label": "Caseworker signature", "type": "signature" },
+        { "id": "supervisor_name_auth", "label": "Supervisor name", "type": "string", "optional": true },
+        { "id": "supervisor_date_auth", "label": "Supervisor date", "type": "date", "optional": true },
+        { "id": "supervisor_signature", "label": "Supervisor signature", "type": "signature", "optional": true }
+      ]
+    }
+  ]
+}
