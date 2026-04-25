@@ -6,16 +6,34 @@ import { CaseList } from '@/components/dashboard/case-list';
 import { MetricsGrid } from '@/components/dashboard/metrics-grid';
 import { SectionLabel } from '@/components/dashboard/section-label';
 import { DashboardStatusBar } from '@/components/dashboard/status-bar';
+import { SupervisorDashboard } from '@/components/dashboard/supervisor-dashboard';
 import { TaskList } from '@/components/dashboard/task-list';
 import { TopBar } from '@/components/dashboard/top-bar';
 import { DashboardColors } from '@/constants/dashboard-colors';
-import { MOCK_ALERT, MOCK_CASES, MOCK_METRICS, MOCK_TASKS, MOCK_WORKER } from '@/data/mock-dashboard';
+import { useUser } from '@/context/user-context';
+import { MOCK_ALERT, MOCK_CASES, MOCK_METRICS, MOCK_TASKS } from '@/data/mock-dashboard';
 
 export default function HomeScreen() {
+  const { user } = useUser();
+
+  if (user?.role === 'supervisor') {
+    return <SupervisorDashboard user={user} />;
+  }
+
+  const worker = user
+    ? {
+        greeting: 'Good morning,',
+        name: user.name,
+        sector: user.sector,
+        role: user.name,
+        avatarInitials: user.avatarInitials,
+      }
+    : { greeting: 'Good morning,', name: 'Field Worker', sector: 'Sector B', role: 'Field Worker', avatarInitials: 'FW' };
+
   return (
     <SafeAreaView style={styles.safeArea} edges={['top']}>
       <DashboardStatusBar />
-      <TopBar worker={MOCK_WORKER} />
+      <TopBar worker={worker} />
       <ScrollView
         style={styles.scroll}
         contentContainerStyle={styles.content}
