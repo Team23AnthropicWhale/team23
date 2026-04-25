@@ -49,7 +49,7 @@ export function SupervisorDashboard({ user }: Props) {
         showsVerticalScrollIndicator={false}>
 
         <View style={styles.sectionHeader}>
-          <Text style={styles.sectionLabel}>SECTOR OVERVIEW</Text>
+          <Text style={styles.sectionLabel}>DASHBOARD</Text>
         </View>
 
         <View style={styles.statsGrid}>
@@ -91,7 +91,7 @@ export function SupervisorDashboard({ user }: Props) {
         <View style={styles.approvalCard}>
           <Ionicons name="document-text-outline" size={20} color={DashboardColors.info.text} />
           <View style={styles.approvalInfo}>
-            <Text style={styles.approvalTitle}>3 referrals awaiting sign-off</Text>
+            <Text style={styles.approvalTitle}>3 approvals awaiting sign-off</Text>
             <Text style={styles.approvalSub}>Tap to review and approve</Text>
           </View>
           <Ionicons name="chevron-forward" size={16} color={DashboardColors.textTertiary} />

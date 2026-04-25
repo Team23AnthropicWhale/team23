@@ -6,16 +6,16 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { DashboardColors } from '@/constants/dashboard-colors';
 
-type TabName = 'index' | 'cases' | 'tasks' | 'sync';
+type TabName = 'home' | 'cases' | 'tasks' | 'sync';
 
 const TAB_CONFIG: Record<TabName, { label: string; icon: string; activeIcon: string }> = {
-  index: { label: 'Home', icon: 'home-outline', activeIcon: 'home' },
+  home: { label: 'Home', icon: 'home-outline', activeIcon: 'home' },
   cases: { label: 'Cases', icon: 'people-outline', activeIcon: 'people' },
   tasks: { label: 'Tasks', icon: 'list-outline', activeIcon: 'list' },
   sync: { label: 'Sync', icon: 'sync-outline', activeIcon: 'sync' },
 };
 
-const TAB_ORDER: TabName[] = ['index', 'cases', 'tasks', 'sync'];
+const TAB_ORDER: TabName[] = ['home', 'cases', 'tasks', 'sync'];
 
 export function CustomTabBar({ state, navigation }: BottomTabBarProps) {
   const insets = useSafeAreaInsets();
