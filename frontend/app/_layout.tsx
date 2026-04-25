@@ -27,7 +27,7 @@ function AuthGate() {
     if (!user && !inAuth) {
       router.replace('/(auth)');
     } else if (user && inAuth) {
-      router.replace('/(tabs)');
+      router.replace('/(tabs)/home');
     }
   }, [user, segments, router]);
   return null;

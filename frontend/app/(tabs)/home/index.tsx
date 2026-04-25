@@ -22,12 +22,12 @@ export default function HomeScreen() {
 
   const worker = user
     ? {
-        greeting: 'Good morning,',
-        name: user.name,
-        sector: user.sector,
-        role: user.name,
-        avatarInitials: user.avatarInitials,
-      }
+      greeting: 'Good morning,',
+      name: user.name,
+      sector: user.sector,
+      role: user.name,
+      avatarInitials: user.avatarInitials,
+    }
     : { greeting: 'Good morning,', name: 'Field Worker', sector: 'Sector B', role: 'Field Worker', avatarInitials: 'FW' };
 
   return (
@@ -38,7 +38,7 @@ export default function HomeScreen() {
         style={styles.scroll}
         contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}>
-        {/* <AlertBanner alert={MOCK_ALERT} /> */}
+        <AlertBanner alert={MOCK_ALERT} />
         <MetricsGrid metrics={MOCK_METRICS} />
         <View style={styles.section}>
           <SectionLabel>Today's Tasks</SectionLabel>
