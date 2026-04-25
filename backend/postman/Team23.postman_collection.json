@@ -1,0 +1,142 @@
+{
+  "info": {
+    "name": "Team23 API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "API collection for the Team23 case management backend.\n\n## Setup\n1. Import this collection into Postman.\n2. Set the `base_url` variable to your server (default: `http://localhost:8000`).\n3. Run **Login** first — the token is saved automatically to `{{token}}`.\n4. All protected requests will then use that token via `Authorization: Bearer {{token}}`.\n\n## Test accounts (after running `php artisan db:seed`)\n| Role | Email | Password |\n|------|-------|----------|\n| Supervisor | supervisor@team23.test | password |\n| Caseworker | caseworker@team23.test | password |\n| Caseworker | caseworker2@team23.test | password |"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const json = pm.response.json();",
+                  "if (json.token) {",
+                  "    pm.collectionVariables.set('token', json.token);",
+                  "    console.log('Token saved:', json.token.substring(0, 20) + '...');",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Accept", "value": "application/json" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"caseworker@team23.test\",\n  \"password\": \"password\",\n  \"device_name\": \"Postman\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["api", "auth", "login"]
+            },
+            "description": "Authenticate and receive a Sanctum API token.\n\n**Request body:**\n- `email` — user email address\n- `password` — user password\n- `device_name` — label for the token (e.g. \"Jane's iPhone\")\n\n**Response 200:**\n```json\n{\n  \"token\": \"1|abc123...\",\n  \"user\": {\n    \"id\": 1,\n    \"name\": \"Charlie Caseworker\",\n    \"email\": \"caseworker@team23.test\",\n    \"user_type\": \"case_worker\"\n  }\n}\n```\n\n**user_type values:** `case_worker` | `supervisor`\n\nThe token is automatically saved to `{{token}}` by the test script."
+          },
+          "response": [
+            {
+              "name": "200 OK — Caseworker login",
+              "status": "OK",
+              "code": 200,
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n  \"token\": \"1|abc123plaintexttoken\",\n  \"user\": {\n    \"id\": 2,\n    \"name\": \"Charlie Caseworker\",\n    \"email\": \"caseworker@team23.test\",\n    \"user_type\": \"case_worker\"\n  }\n}"
+            },
+            {
+              "name": "422 Unprocessable — Wrong password",
+              "status": "Unprocessable Entity",
+              "code": 422,
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n  \"message\": \"The provided credentials are incorrect.\",\n  \"errors\": {\n    \"email\": [\"The provided credentials are incorrect.\"]\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Me (get current user)",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Accept", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/auth/me",
+              "host": ["{{base_url}}"],
+              "path": ["api", "auth", "me"]
+            },
+            "description": "Return the currently authenticated user.\n\n**Requires:** `Authorization: Bearer {{token}}`\n\n**Response 200:**\n```json\n{\n  \"data\": {\n    \"id\": 1,\n    \"name\": \"Charlie Caseworker\",\n    \"email\": \"caseworker@team23.test\",\n    \"user_type\": \"case_worker\"\n  }\n}\n```\n\n**React Native usage:** Call on app launch after loading the stored token to restore the session. On 401 redirect to login."
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "status": "OK",
+              "code": 200,
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n  \"data\": {\n    \"id\": 2,\n    \"name\": \"Charlie Caseworker\",\n    \"email\": \"caseworker@team23.test\",\n    \"user_type\": \"case_worker\"\n  }\n}"
+            },
+            {
+              "name": "401 Unauthorized — No / invalid token",
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n  \"message\": \"Unauthenticated.\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Accept", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/auth/logout",
+              "host": ["{{base_url}}"],
+              "path": ["api", "auth", "logout"]
+            },
+            "description": "Revoke the current API token (logout).\n\n**Requires:** `Authorization: Bearer {{token}}`\n\n**Response:** `204 No Content` (empty body)\n\n**React Native usage:** Call before clearing the stored token from expo-secure-store. On 204 navigate back to the login screen."
+          },
+          "response": [
+            {
+              "name": "204 No Content",
+              "status": "No Content",
+              "code": 204,
+              "header": [],
+              "body": ""
+            },
+            {
+              "name": "401 Unauthorized — No / invalid token",
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [{ "key": "Content-Type", "value": "application/json" }],
+              "body": "{\n  \"message\": \"Unauthenticated.\"\n}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
