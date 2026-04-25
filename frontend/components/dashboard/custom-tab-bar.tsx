@@ -5,21 +5,25 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { DashboardColors } from '@/constants/dashboard-colors';
+import { useUser } from '@/context/user-context';
 
-type TabName = 'home' | 'cases' | 'tasks' | 'sync';
+type TabName = 'home' | 'cases' | 'tasks' | 'sync' | 'upload';
 
 const TAB_CONFIG: Record<TabName, { label: string; icon: string; activeIcon: string }> = {
   home: { label: 'Home', icon: 'home-outline', activeIcon: 'home' },
   cases: { label: 'Cases', icon: 'people-outline', activeIcon: 'people' },
   tasks: { label: 'Tasks', icon: 'list-outline', activeIcon: 'list' },
   sync: { label: 'Sync', icon: 'sync-outline', activeIcon: 'sync' },
+  upload: { label: 'Upload', icon: 'cloud-upload-outline', activeIcon: 'cloud-upload' },
 };
 
-const TAB_ORDER: TabName[] = ['home', 'cases', 'tasks', 'sync'];
+const TAB_ORDER: TabName[] = ['home', 'cases', 'tasks', 'sync', 'upload'];
 
 export function CustomTabBar({ state, navigation }: BottomTabBarProps) {
   const insets = useSafeAreaInsets();
   const router = useRouter();
+  const { user } = useUser();
+  const isSupervisor = user?.role === 'supervisor';
 
   const activeRouteName = state.routes[state.index]?.name as TabName;
 
@@ -50,9 +54,20 @@ export function CustomTabBar({ state, navigation }: BottomTabBarProps) {
     );
   };
 
+  const workerTabs: TabName[] = ['home', 'cases', 'tasks', 'sync'];
+  const supervisorTabs: TabName[] = ['home', 'cases', 'tasks', 'sync', 'upload'];
+
+  if (isSupervisor) {
+    return (
+      <View style={[styles.barWrapper, { paddingBottom: Math.max(insets.bottom, 8) }]}>
+        {supervisorTabs.map((name) => renderTab(name, 'left'))}
+      </View>
+    );
+  }
+
   return (
     <View style={[styles.barWrapper, { paddingBottom: Math.max(insets.bottom, 8) }]}>
-      {TAB_ORDER.slice(0, 2).map((name) => renderTab(name, 'left'))}
+      {workerTabs.slice(0, 2).map((name) => renderTab(name, 'left'))}
 
       <View style={styles.fabSlot}>
         <TouchableOpacity
@@ -63,7 +78,7 @@ export function CustomTabBar({ state, navigation }: BottomTabBarProps) {
         </TouchableOpacity>
       </View>
 
-      {TAB_ORDER.slice(2).map((name) => renderTab(name, 'right'))}
+      {workerTabs.slice(2).map((name) => renderTab(name, 'right'))}
     </View>
   );
 }

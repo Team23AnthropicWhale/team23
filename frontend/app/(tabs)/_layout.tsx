@@ -11,6 +11,7 @@ export default function TabLayout() {
       <Tabs.Screen name="cases" options={{ title: 'Cases' }} />
       <Tabs.Screen name="tasks" options={{ title: 'Tasks' }} />
       <Tabs.Screen name="sync" options={{ title: 'Sync' }} />
+      <Tabs.Screen name="upload" options={{ title: 'Upload' }} />
       <Tabs.Screen name="explore" options={{ href: null }} />
     </Tabs>
   );
