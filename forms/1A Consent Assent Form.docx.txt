@@ -1,0 +1,97 @@
+﻿1. CASE INFORMATION 
+Date form completed dd/mm/yyyy
+	Case ID number
+	
+
+2. CHILD PERSONAL DETAILS 
+First name
+	(Optional)Middle name / Father's name )
+
+
+
+
+	Last name/ Family Name 
+	Other names or spelling of name the child is known by
+	
+
+3. CONSENT AND ASSENT – PLEASE avoid editing this section 
+3.a Legitimate basis for collecting and documenting information on this case
+* Consent
+* Vital interests (The requirement for consent from both parents or caregiver and the child can be overridden if it is in the best interests of the child)
+Note: If consent overriden by vital interest, not need to fill out section below 3.b and 3.c
+	3.b Consent or assent obtained from (select all that apply) 
+	Consent
+* Child
+* One parent/ caregiver
+* Both parents/aregivers 
+* Other, please specify relationship to the child: _________________________
+	Assent
+* Child
+* One parent/caregiver 
+* Both parents/caregivers
+* Other, please specify relationship to the child: ___________________________
+	Reminder: do not forget to obtain consent or assent from the child when possible noting that for children age 0-5 this may vary based on development of the child,, see notes in the CM Guidelines and Training package. 
+	3.c I (name of person giving consent), give my permission for the following
+	
+
+	Participation in the case management process
+	* Yes
+	* No  
+	
+
+	Collection and storing of personal information about the case (e.g., name, photo, family, and incident details)
+	* Yes
+	* No
+	
+
+	Sharing of personal information for the purpose of service provision
+	* Yes
+	* No
+	
+
+	Sharing of non-identifiable information for reporting
+	* Yes
+	* No
+	(Optional, only when tracing required) Consent given to disclose information for tracing purposes  
+	* Yes
+	* No
+	3.d Is there any specific information you would like to withhold and not share with any service provider?
+
+
+	* Yes
+	* No
+	        - If yes, please specify which information and/or which agency or service provider:
+	
+
+
+
+
+
+	
+
+	        -  (Optional) Specify the reason for withholding this information:
+	
+
+
+
+
+
+	
+
+	
+
+4. AUTHORIZATION
+Child name (when possible due to age) 
+	Date dd/mm/yyyy
+	Signature 
+	Parent/ Caregiver Name 
+	Date dd/mm/yyyy
+	Signature 
+	Caseworker name 
+	 Date dd/mm/yyyy
+	 Signature 
+
+
+	Supervisor name 
+	Date dd/mm/yyyy
+	Signature
