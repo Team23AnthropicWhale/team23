@@ -1,9 +1,11 @@
 import { Ionicons } from '@expo/vector-icons';
+import { Redirect } from 'expo-router';
 import { useState } from 'react';
 import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { DashboardColors } from '@/constants/dashboard-colors';
+import { useUser } from '@/context/user-context';
 
 const PENDING_FILES = [
   { id: 1, name: 'FW-01_CP-0312_2026-04-26.csv', worker: 'FW-01', sector: 'Sector A', received: 'Today, 08:14' },
@@ -12,7 +14,12 @@ const PENDING_FILES = [
 ];
 
 export default function UploadScreen() {
+  const { user } = useUser();
   const [uploading, setUploading] = useState(false);
+
+  if (user?.role !== 'supervisor') {
+    return <Redirect href="/(tabs)/home" />;
+  }
   const [uploaded, setUploaded] = useState<number[]>([]);
 
   const handleUpload = async () => {
