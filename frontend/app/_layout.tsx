@@ -4,7 +4,9 @@ import { StatusBar } from 'expo-status-bar';
 import { useEffect, useRef } from 'react';
 import 'react-native-reanimated';
 
+import { CaseProvider } from '@/context/case-context';
 import { UserProvider, useUser } from '@/context/user-context';
+import { initStorage } from '@/services/fileService';
 
 export const unstable_settings = {
   anchor: '(auth)',
@@ -34,16 +36,22 @@ function AuthGate() {
 }
 
 export default function RootLayout() {
+  useEffect(() => {
+    initStorage();
+  }, []);
+
   return (
     <ThemeProvider value={DefaultTheme}>
       <UserProvider>
-        <AuthGate />
-        <Stack>
-          <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
-        </Stack>
-        <StatusBar style="dark" />
+        <CaseProvider>
+          <AuthGate />
+          <Stack>
+            <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
+          </Stack>
+          <StatusBar style="dark" />
+        </CaseProvider>
       </UserProvider>
     </ThemeProvider>
   );
