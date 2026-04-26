@@ -5,7 +5,9 @@ import { useEffect, useRef } from 'react';
 import 'react-native-reanimated';
 
 import { TaskProvider } from '@/context/task-context';
+import { CaseProvider } from '@/context/case-context';
 import { UserProvider, useUser } from '@/context/user-context';
+import { initStorage } from '@/services/fileService';
 
 export const unstable_settings = {
   anchor: '(auth)',
@@ -35,18 +37,24 @@ function AuthGate() {
 }
 
 export default function RootLayout() {
+  useEffect(() => {
+    initStorage();
+  }, []);
+
   return (
     <ThemeProvider value={DefaultTheme}>
       <UserProvider>
+        <CaseProvider>
         <TaskProvider>
-        <AuthGate />
-        <Stack>
-          <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
-        </Stack>
-        <StatusBar style="dark" />
-        </TaskProvider>
+          <AuthGate />
+          <Stack>
+            <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
+          </Stack>
+          <StatusBar style="dark" />
+		  </TaskProvider>
+        </CaseProvider>
       </UserProvider>
     </ThemeProvider>
   );

@@ -8,6 +8,7 @@ import { DashboardColors } from '@/constants/dashboard-colors';
 import { useUser } from '@/context/user-context';
 
 type TabName = 'home' | 'cases' | 'tasks' | 'sync' | 'upload';
+type RouteName = `${TabName}/index`;
 
 const TAB_CONFIG: Record<TabName, { label: string; icon: string; activeIcon: string }> = {
   home: { label: 'Home', icon: 'home-outline', activeIcon: 'home' },
@@ -19,20 +20,23 @@ const TAB_CONFIG: Record<TabName, { label: string; icon: string; activeIcon: str
 
 const TAB_ORDER: TabName[] = ['home', 'cases', 'tasks', 'sync', 'upload'];
 
+const toRoute = (name: TabName): RouteName => `${name}/index`;
+
 export function CustomTabBar({ state, navigation }: BottomTabBarProps) {
   const insets = useSafeAreaInsets();
   const router = useRouter();
   const { user } = useUser();
   const isSupervisor = user?.role === 'supervisor';
 
-  const activeRouteName = state.routes[state.index]?.name as TabName;
+  const activeRouteName = (state.routes[state.index]?.name ?? '').replace('/index', '') as TabName;
 
   const navigateTo = (name: TabName) => {
-    const route = state.routes.find((r) => r.name === name);
+    const routeName = toRoute(name);
+    const route = state.routes.find((r) => r.name === routeName);
     if (!route) return;
     const isFocused = state.index === state.routes.indexOf(route);
     if (!isFocused) {
-      navigation.navigate(name);
+      navigation.navigate(routeName as any);
     }
   };
 
