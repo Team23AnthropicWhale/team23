@@ -1,0 +1,11 @@
+{
+  "name": "@cpms/frontend-sync",
+  "version": "1.0.0",
+  "description": "BLE sync layer for CPMS mobile app — React Native only",
+  "dependencies": {
+    "react-native-ble-plx": "^3.5.1"
+  },
+  "peerDependencies": {
+    "@cpms/shared": "*"
+  }
+}

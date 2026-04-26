@@ -1,0 +1,8 @@
+{
+  "name": "@cpms/shared",
+  "version": "1.0.0",
+  "description": "Platform-agnostic crypto, compression and lookup — runs on React Native, Node.js, and browsers",
+  "dependencies": {
+    "pako": "^2.1.0"
+  }
+}

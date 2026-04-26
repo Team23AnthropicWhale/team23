@@ -10,8 +10,8 @@ interface Props {
   onDelete: (item: StoredCase) => void;
 }
 
-function getInitials(name: string): string {
-  return name.trim().slice(0, 2).toUpperCase() || '??';
+function getInitials(name: string | undefined): string {
+  return name?.trim().slice(0, 2).toUpperCase() || '??';
 }
 
 export function CaseCard({ item, onPress, onDelete }: Props) {
