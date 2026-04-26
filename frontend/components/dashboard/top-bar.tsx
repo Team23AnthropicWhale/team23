@@ -1,13 +1,19 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { useState } from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import { DashboardColors } from '@/constants/dashboard-colors';
+import { useUser } from '@/context/user-context';
 import type { Worker } from '@/types/dashboard';
+import { ProfileMenu } from './profile-menu';
 
 interface Props {
   worker: Worker;
 }
 
 export function TopBar({ worker }: Props) {
+  const { user, logout } = useUser();
+  const [menuVisible, setMenuVisible] = useState(false);
+
   return (
     <View style={styles.container}>
       <View style={styles.row}>
@@ -17,10 +23,21 @@ export function TopBar({ worker }: Props) {
             {worker.role} · {worker.sector}
           </Text>
         </View>
-        <View style={styles.avatar}>
+        <TouchableOpacity
+          style={styles.avatar}
+          onPress={() => setMenuVisible(true)}
+          activeOpacity={0.8}>
           <Text style={styles.avatarText}>{worker.avatarInitials}</Text>
-        </View>
+        </TouchableOpacity>
       </View>
+      {user && (
+        <ProfileMenu
+          user={user}
+          visible={menuVisible}
+          onClose={() => setMenuVisible(false)}
+          onLogout={logout}
+        />
+      )}
     </View>
   );
 }

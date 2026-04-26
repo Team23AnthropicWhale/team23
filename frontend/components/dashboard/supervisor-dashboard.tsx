@@ -1,9 +1,12 @@
 import { Ionicons } from '@expo/vector-icons';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { useState } from 'react';
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { DashboardColors } from '@/constants/dashboard-colors';
 import type { AppUser } from '@/context/user-context';
+import { useUser } from '@/context/user-context';
+import { ProfileMenu } from './profile-menu';
 
 const SECTOR_STATS = [
   { label: 'Active workers', value: 8, color: 'blue' as const },
@@ -31,6 +34,9 @@ interface Props {
 }
 
 export function SupervisorDashboard({ user }: Props) {
+  const { logout } = useUser();
+  const [menuVisible, setMenuVisible] = useState(false);
+
   return (
     <SafeAreaView style={styles.safeArea} edges={['top']}>
       <View style={styles.header}>
@@ -38,10 +44,19 @@ export function SupervisorDashboard({ user }: Props) {
           <Text style={styles.greeting}>{user.name}</Text>
           <Text style={styles.role}>Supervisor · {user.sector}</Text>
         </View>
-        <View style={styles.avatar}>
+        <TouchableOpacity
+          style={styles.avatar}
+          onPress={() => setMenuVisible(true)}
+          activeOpacity={0.8}>
           <Text style={styles.avatarText}>{user.avatarInitials}</Text>
-        </View>
+        </TouchableOpacity>
       </View>
+      <ProfileMenu
+        user={user}
+        visible={menuVisible}
+        onClose={() => setMenuVisible(false)}
+        onLogout={logout}
+      />
 
       <ScrollView
         style={styles.scroll}
