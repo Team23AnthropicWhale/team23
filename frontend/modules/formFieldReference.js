@@ -2,8 +2,8 @@
  * formFieldReference.js
  *
  * Complete field reference for all 6 CPMS forms, derived from the official
- * paper form set. Paste the constants at the bottom of encryptionModule.js
- * (they replace the existing simplified lookup tables).
+ * paper form set. The lookup constants below are the source of truth for
+ * LOOKUP_TABLE in src/dataUtils.ts.
  *
  * Forms covered:
  *   1A  Consent / Assent Form
@@ -325,9 +325,9 @@
  *  *   Supervisor name / date                          —     SYSTEM_MANAGED
  */
 
-// ─── PASTE BELOW INTO encryptionModule.js ─────────────────────────────────────
-// Replace the existing FIELD_TO_SHORT, FIELD_TO_LONG, CONCERN_TO_NUM,
-// NUM_TO_CONCERN, RISK_TO_NUM, NUM_TO_RISK blocks with everything below.
+// ─── Reference constants — source of truth for src/dataUtils.ts LOOKUP_TABLE ─
+// FIELD_TO_SHORT, FIELD_TO_LONG, CONCERN_TO_NUM, NUM_TO_CONCERN,
+// RISK_TO_NUM, NUM_TO_RISK are defined below.
 // ──────────────────────────────────────────────────────────────────────────────
 
 // ─── Compact key map (verbose field name → 2-4 char code) ────────────────────
