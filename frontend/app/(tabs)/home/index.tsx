@@ -10,11 +10,13 @@ import { SupervisorDashboard } from '@/components/dashboard/supervisor-dashboard
 import { TaskList } from '@/components/dashboard/task-list';
 import { TopBar } from '@/components/dashboard/top-bar';
 import { DashboardColors } from '@/constants/dashboard-colors';
+import { useTaskContext } from '@/context/task-context';
 import { useUser } from '@/context/user-context';
-import { MOCK_ALERT, MOCK_CASES, MOCK_METRICS, MOCK_TASKS } from '@/data/mock-dashboard';
+import { MOCK_CASES, MOCK_METRICS } from '@/data/mock-dashboard';
 
 export default function HomeScreen() {
   const { user } = useUser();
+  const { tasks } = useTaskContext();
 
   if (user?.role === 'supervisor') {
     return <SupervisorDashboard user={user} />;
@@ -30,6 +32,15 @@ export default function HomeScreen() {
     }
     : { greeting: 'Good morning,', name: 'Field Worker', sector: 'Sector B', role: 'Field Worker', avatarInitials: 'FW' };
 
+  const urgentTasks = tasks.filter((t) => t.urgency === 'red');
+  const urgentAlert = urgentTasks.length > 0
+    ? {
+        count: urgentTasks.length,
+        cases: urgentTasks.slice(0, 3).map((t) => t.id),
+        action: 'action required today',
+      }
+    : null;
+
   return (
     <SafeAreaView style={styles.safeArea} edges={['top']}>
       <DashboardStatusBar />
@@ -38,11 +49,11 @@ export default function HomeScreen() {
         style={styles.scroll}
         contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}>
-        <AlertBanner alert={MOCK_ALERT} />
+        {urgentAlert && <AlertBanner alert={urgentAlert} />}
         <MetricsGrid metrics={MOCK_METRICS} />
         <View style={styles.section}>
           <SectionLabel>Today's Tasks</SectionLabel>
-          <TaskList tasks={MOCK_TASKS} />
+          <TaskList tasks={tasks} />
         </View>
         <View style={styles.section}>
           <SectionLabel>Priority Cases</SectionLabel>

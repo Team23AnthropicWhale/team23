@@ -4,6 +4,7 @@ import { StatusBar } from 'expo-status-bar';
 import { useEffect, useRef } from 'react';
 import 'react-native-reanimated';
 
+import { TaskProvider } from '@/context/task-context';
 import { UserProvider, useUser } from '@/context/user-context';
 
 export const unstable_settings = {
@@ -37,6 +38,7 @@ export default function RootLayout() {
   return (
     <ThemeProvider value={DefaultTheme}>
       <UserProvider>
+        <TaskProvider>
         <AuthGate />
         <Stack>
           <Stack.Screen name="(auth)" options={{ headerShown: false }} />
@@ -44,6 +46,7 @@ export default function RootLayout() {
           <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
         </Stack>
         <StatusBar style="dark" />
+        </TaskProvider>
       </UserProvider>
     </ThemeProvider>
   );
