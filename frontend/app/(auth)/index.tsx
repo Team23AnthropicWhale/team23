@@ -56,7 +56,7 @@ export default function LoginScreen() {
 
           <View style={styles.imageContainer}>
             <Image
-              source={require('@/assets/images/warchild_logo.png')}
+              source={require('@/assets/images/safecase.png')}
               style={styles.logo}
               contentFit="contain"
             />
@@ -112,9 +112,7 @@ export default function LoginScreen() {
               </Pressable>
             </View>
 
-            <Text style={styles.hint}>
-              Use an email with "supervisor" for the supervisor dashboard.
-            </Text>
+
           </View>
 
         </ScrollView>
