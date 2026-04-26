@@ -1,7 +1,10 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npx expo *)"
+      "Bash(npx expo *)",
+      "Bash(grep -E \"\\\\.\\(tsx|ts\\)$\")",
+      "Bash(grep -E '^jest-expo$|^@jest|^babel-jest')",
+      "Bash(xargs cat *)"
     ]
   }
 }

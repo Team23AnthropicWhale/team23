@@ -37,8 +37,8 @@ export default function LoginScreen() {
       await login(email.trim(), password);
       router.replace('/(tabs)/home');
     } catch (err) {
-		if (err instanceof Error)
-	     setError(err.message);
+      if (err instanceof Error)
+        setError(err.message);
     } finally {
       setLoading(false);
     }

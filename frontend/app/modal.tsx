@@ -1,13 +1,15 @@
 import { Ionicons } from '@expo/vector-icons';
 import { Stack, useRouter } from 'expo-router';
 import { useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Alert, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { FormWizard } from '@/components/forms/form-wizard';
 import { DashboardColors } from '@/constants/dashboard-colors';
 import { FORMS } from '@/data/forms';
-import type { FormDefinition } from '@/types/form';
+import { createCase } from '@/services/caseService';
+import { convertFormToCSV, generateCaseId, writeCaseCSV } from '@/services/csvService';
+import type { FormDefinition, FormValues } from '@/types/form';
 
 const FORM_DESCRIPTIONS: Record<string, string> = {
   '1A': 'Consent and data collection permissions',
@@ -19,12 +21,25 @@ export default function ModalScreen() {
   const router = useRouter();
   const [activeForm, setActiveForm] = useState<FormDefinition | null>(null);
 
+  const handleFormSubmit = async (values: FormValues) => {
+    if (!activeForm) return;
+    try {
+      const id = generateCaseId();
+      const csv = convertFormToCSV(id, values);
+      const filePath = await writeCaseCSV(id, csv);
+      await createCase(id, `Form ${activeForm.form_id}`, filePath);
+      router.back();
+    } catch {
+      Alert.alert('Error', 'Could not save form data. Please try again.');
+    }
+  };
+
   return (
     <>
       <Stack.Screen options={{ headerShown: false }} />
       <SafeAreaView style={styles.safeArea} edges={['top', 'bottom']}>
         {activeForm ? (
-          <FormWizard form={activeForm} onClose={() => router.back()} />
+          <FormWizard form={activeForm} onClose={() => router.back()} onSubmit={handleFormSubmit} />
         ) : (
           <View style={styles.container}>
             <View style={styles.header}>

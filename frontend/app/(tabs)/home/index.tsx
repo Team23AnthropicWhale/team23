@@ -1,4 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
+import { useFocusEffect } from 'expo-router';
+import { useCallback, useState } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -12,11 +14,14 @@ import { TopBar } from '@/components/dashboard/top-bar';
 import { DashboardColors } from '@/constants/dashboard-colors';
 import { useTaskContext } from '@/context/task-context';
 import { useUser } from '@/context/user-context';
+import { getAllCases } from '@/services/caseService';
+import { parseCsv, readCsv } from '@/services/csvService';
+import type { StoredCase } from '@/types/case';
+import type { AvatarVariant, Case, PillVariant } from '@/types/dashboard';
 
 import {
   MOCK_ALERT,
   MOCK_APPROVALS,
-  MOCK_CASES,
   MOCK_METRICS,
   MOCK_SUPERVISOR_CASES,
   MOCK_TASKS,
@@ -41,10 +46,58 @@ const COLOR_MAP = {
 
 const alertCases = MOCK_SUPERVISOR_CASES.filter(c => c.alertLevel);
 
+function storedCaseToCase(stored: StoredCase, rows: Record<string, string>[]): Case {
+  const row = rows[0] ?? {};
+  const firstName = (row.first_name ?? stored.name ?? '').trim();
+  const sex = row.sex ?? '';
+  const age = row.age ?? '';
+  const riskLevel = row.risk_level ?? '';
+  const risks = row.risks ?? '';
+  const displayId = row.case_id || stored.id.slice(-6).toUpperCase();
+
+  const sexInitial = sex.toLowerCase().startsWith('f') ? 'F' : sex.toLowerCase().startsWith('m') ? 'M' : '?';
+  const initials = `${(firstName[0] ?? '?').toUpperCase()}·${sexInitial}${age}`;
+
+  const status: PillVariant =
+    riskLevel === 'high' ? 'urgent' :
+    riskLevel === 'medium' ? 'active' :
+    riskLevel === 'low' ? 'pending' : 'active';
+
+  const variant: AvatarVariant =
+    status === 'urgent' ? 'red' :
+    status === 'active' ? 'blue' :
+    status === 'pending' ? 'amber' : 'teal';
+
+  const type = risks.split(';')[0]?.trim() || stored.name;
+  const encryptionDay = Math.floor(
+    (Date.now() - new Date(stored.createdAt).getTime()) / (1000 * 60 * 60 * 24),
+  );
+
+  return { id: displayId, avatar: { initials, variant }, type, encryptionDay, status };
+}
+
 export default function HomeScreen() {
   const { user } = useUser();
   const { tasks } = useTaskContext();
   const isSupervisor = user?.role === 'supervisor';
+
+  const [cases, setCases] = useState<Case[]>([]);
+
+  useFocusEffect(
+    useCallback(() => {
+      (async () => {
+        const stored = await getAllCases();
+        const converted = await Promise.all(
+          stored.map(async (s) => {
+            const csv = await readCsv(s.id);
+            const rows = parseCsv(csv) as Record<string, string>[];
+            return storedCaseToCase(s, rows);
+          }),
+        );
+        setCases(converted);
+      })();
+    }, []),
+  );
 
   const worker = user
     ? { greeting: 'Good morning,', name: user.name, sector: user.sector, role: user.name, avatarInitials: user.avatarInitials }
@@ -53,10 +106,10 @@ export default function HomeScreen() {
   const urgentTasks = tasks.filter((t) => t.urgency === 'red');
   const urgentAlert = urgentTasks.length > 0
     ? {
-        count: urgentTasks.length,
-        cases: urgentTasks.slice(0, 3).map((t) => t.id),
-        action: 'action required today',
-      }
+      count: urgentTasks.length,
+      cases: urgentTasks.slice(0, 3).map((t) => t.id),
+      action: 'action required today',
+    }
     : null;
 
   return (
@@ -82,16 +135,7 @@ export default function HomeScreen() {
         style={styles.scroll}
         contentContainerStyle={isSupervisor ? styles.contentSupervisor : styles.content}
         showsVerticalScrollIndicator={false}>
-         {urgentAlert && <AlertBanner alert={urgentAlert} />}
-        {/*<MetricsGrid metrics={MOCK_METRICS} />
-        <View style={styles.section}>
-          <SectionLabel>Today's Tasks</SectionLabel>
-          <TaskList tasks={tasks} />
-        </View>
-        <View style={styles.section}>
-          <SectionLabel>Priority Cases</SectionLabel>
-          <CaseList cases={MOCK_CASES} />
-        </View> */}
+        {urgentAlert && <AlertBanner alert={urgentAlert} />}
 
         {isSupervisor ? (
           <>
@@ -157,7 +201,7 @@ export default function HomeScreen() {
             </View>
             <View style={styles.section}>
               <SectionLabel>Priority Cases</SectionLabel>
-              <CaseList cases={MOCK_CASES} />
+              <CaseList cases={cases} />
             </View>
           </>
         )}

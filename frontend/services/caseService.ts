@@ -1,14 +1,9 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { getCasesDir, deleteFile } from './fileService';
-import { writeCsv } from './csvService';
 import type { StoredCase } from '@/types/case';
 
 const STORAGE_KEY = 'cases';
 
-function generateId(): string {
-  return Date.now().toString(36) + Math.random().toString(36).slice(2, 9);
-}
 
 async function loadAll(): Promise<StoredCase[]> {
   try {
@@ -34,10 +29,11 @@ export async function getCaseById(id: string): Promise<StoredCase | null> {
   return cases.find((c) => c.id === id) ?? null;
 }
 
-export async function createCase(name: string, initialCsv?: string): Promise<StoredCase> {
-  const id = generateId();
-  const filePath = `${getCasesDir()}${id}.csv`;
-  await writeCsv(id, initialCsv ?? '');
+export async function createCase(
+  id: string,
+  name: string,
+  filePath: string | null,
+): Promise<StoredCase> {
   const now = new Date().toISOString();
   const newCase: StoredCase = { id, name, filePath, createdAt: now, updatedAt: now };
   const cases = await loadAll();
@@ -57,7 +53,5 @@ export async function updateCaseName(id: string, name: string): Promise<StoredCa
 
 export async function deleteCase(id: string): Promise<void> {
   const cases = await loadAll();
-  const target = cases.find((c) => c.id === id);
-  if (target) await deleteFile(target.filePath);
   await saveAll(cases.filter((c) => c.id !== id));
 }

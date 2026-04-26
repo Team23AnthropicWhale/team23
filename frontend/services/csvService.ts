@@ -1,6 +1,7 @@
 import * as FileSystem from 'expo-file-system/legacy';
 import Papa from 'papaparse';
 
+import type { FormValues } from '@/types/form';
 import { getCasesDir } from './fileService';
 
 function getFilePath(caseId: string): string {
@@ -31,6 +32,39 @@ export async function appendRow(caseId: string, row: string[]): Promise<void> {
   rows.push(newRow);
   await writeCsv(caseId, serializeCsv(rows));
 }
+
+export function generateCaseId(): string {
+  const digits = Math.floor(1000 + Math.random() * 9000);
+  const letters = Array.from({ length: 3 }, () =>
+    String.fromCharCode(65 + Math.floor(Math.random() * 26)),
+  ).join('');
+  return `WAR-${digits}-${letters}`;
+}
+
+export async function writeCaseCSV(internalId: string, csv: string): Promise<string> {
+  const filePath = getFilePath(internalId);
+  await writeCsv(internalId, csv);
+  return filePath;
+}
+
+export function convertFormToCSV(caseId: string, values: FormValues): string {
+  const flat: Record<string, string> = { case_id: caseId };
+
+  for (const [key, val] of Object.entries(values)) {
+    if (val === undefined || val === null) {
+      flat[key] = '';
+    } else if (typeof val === 'boolean') {
+      flat[key] = val ? 'Yes' : 'No';
+    } else if (Array.isArray(val)) {
+      flat[key] = val.map(v => (typeof v === 'object' ? JSON.stringify(v) : String(v))).join('; ');
+    } else {
+      flat[key] = String(val);
+    }
+  }
+
+  return serializeCsv([flat]);
+}
+
 
 export function parseCsv(csvString: string): object[] {
   if (!csvString.trim()) return [];

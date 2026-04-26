@@ -57,9 +57,10 @@ function buildInitialValues(form: FormDefinition, workerName: string | null): Fo
 interface FormWizardProps {
   form: FormDefinition;
   onClose: () => void;
+  onSubmit?: (values: FormValues) => void;
 }
 
-export function FormWizard({ form, onClose }: FormWizardProps) {
+export function FormWizard({ form, onClose, onSubmit }: FormWizardProps) {
   const { user } = useUser();
 
   const initialValues = useMemo(
@@ -147,7 +148,14 @@ export function FormWizard({ form, onClose }: FormWizardProps) {
 
         <Pressable
           style={[styles.btn, styles.btnPrimary, isLast && styles.btnSuccess]}
-          onPress={() => (isLast ? onClose() : setStep((s) => s + 1))}>
+          onPress={() => {
+              if (isLast) {
+                onSubmit?.(values);
+                onClose();
+              } else {
+                setStep((s) => s + 1);
+              }
+            }}>
           <Text style={styles.btnPrimaryText}>{isLast ? 'Complete' : 'Next'}</Text>
           {!isLast && <Ionicons name="chevron-forward" size={16} color="#fff" />}
           {isLast && <Ionicons name="checkmark" size={16} color="#fff" />}
