@@ -151,7 +151,6 @@ export function FormWizard({ form, onClose, onSubmit }: FormWizardProps) {
           onPress={() => {
               if (isLast) {
                 onSubmit?.(values);
-                onClose();
               } else {
                 setStep((s) => s + 1);
               }

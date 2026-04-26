@@ -1,5 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ActivityIndicator, Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -7,12 +7,22 @@ import { CaseCard } from '@/components/cases/case-card';
 import { CreateCaseModal } from '@/components/cases/create-case-modal';
 import { DashboardColors } from '@/constants/dashboard-colors';
 import { useCases } from '@/context/case-context';
-import { generateCaseId } from '@/services/csvService';
-import type { StoredCase } from '@/types/case';
+import { generateCaseId, toCaseView } from '@/services/caseService';
+import type { Case } from '@/types/dashboard';
 
 export default function CasesScreen() {
-  const { cases, loading, createCase, deleteCase } = useCases();
+  const { cases: storedCases, loading, createCase, deleteCase } = useCases();
+  const [viewCases, setViewCases] = useState<Case[]>([]);
   const [modalVisible, setModalVisible] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      const converted = await Promise.all(storedCases.map(toCaseView));
+      if (!cancelled) setViewCases(converted);
+    })();
+    return () => { cancelled = true; };
+  }, [storedCases]);
 
   async function handleCreate(name: string) {
     setModalVisible(false);
@@ -23,8 +33,8 @@ export default function CasesScreen() {
     }
   }
 
-  function handleDelete(item: StoredCase) {
-    Alert.alert('Delete Case', `Delete "${item.name}"?`, [
+  function handleDelete(item: Case) {
+    Alert.alert('Delete Case', `Delete "${item.name ?? item.id}"?`, [
       { text: 'Cancel', style: 'cancel' },
       {
         text: 'Delete',
@@ -34,8 +44,8 @@ export default function CasesScreen() {
     ]);
   }
 
-  function handlePress(item: StoredCase) {
-    Alert.alert('Open Case', item.name);
+  function handlePress(item: Case) {
+    Alert.alert('Open Case', item.name ?? item.id);
   }
 
   return (
@@ -54,14 +64,14 @@ export default function CasesScreen() {
       >
         {loading ? (
           <ActivityIndicator color={DashboardColors.info.text} style={styles.spinner} />
-        ) : cases.length === 0 ? (
+        ) : viewCases.length === 0 ? (
           <View style={styles.emptyState}>
             <Ionicons name="folder-open-outline" size={40} color={DashboardColors.textTertiary} />
             <Text style={styles.emptyText}>No cases yet. Tap + to create one.</Text>
           </View>
         ) : (
           <View style={styles.list}>
-            {cases.map((c) => (
+            {viewCases.map((c) => (
               <CaseCard key={c.id} item={c} onPress={handlePress} onDelete={handleDelete} />
             ))}
           </View>

@@ -1,6 +1,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import type { StoredCase } from '@/types/case';
+import type { AvatarVariant, Case, PillVariant } from '@/types/dashboard';
+import { parseCsv, readCsv } from './csvService';
 
 const STORAGE_KEY = 'cases';
 
@@ -54,4 +56,46 @@ export async function updateCaseName(id: string, name: string): Promise<StoredCa
 export async function deleteCase(id: string): Promise<void> {
   const cases = await loadAll();
   await saveAll(cases.filter((c) => c.id !== id));
+}
+
+export async function toCaseView(stored: StoredCase): Promise<Case> {
+  const csv = await readCsv(stored.id);
+  const rows = parseCsv(csv) as Record<string, string>[];
+  const row = rows[0] ?? {};
+
+  const firstName = (row.first_name ?? stored.name ?? '').trim();
+  const sex = row.sex ?? '';
+  const age = row.age ?? '';
+  const riskLevel = row.risk_level ?? '';
+  const risks = row.risks ?? '';
+
+  const sexInitial = sex.toLowerCase().startsWith('f') ? 'F' : sex.toLowerCase().startsWith('m') ? 'M' : '?';
+  const initials = `${(firstName[0] ?? '?').toUpperCase()}·${sexInitial}${age}`;
+
+  const status: PillVariant =
+    riskLevel === 'high' ? 'urgent' :
+    riskLevel === 'medium' ? 'active' :
+    riskLevel === 'low' ? 'pending' : 'active';
+
+  const variant: AvatarVariant =
+    status === 'urgent' ? 'red' :
+    status === 'active' ? 'blue' :
+    status === 'pending' ? 'amber' : 'teal';
+
+  const type = risks.split(';')[0]?.trim() || stored.name;
+  const encryptionDay = Math.floor(
+    (Date.now() - new Date(stored.createdAt).getTime()) / (1000 * 60 * 60 * 24),
+  );
+
+  return {
+    id: stored.id,
+    name: stored.name,
+    filePath: stored.filePath,
+    createdAt: stored.createdAt,
+    updatedAt: stored.updatedAt,
+    avatar: { initials, variant },
+    type,
+    encryptionDay,
+    status,
+  };
 }

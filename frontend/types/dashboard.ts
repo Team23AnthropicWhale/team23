@@ -41,6 +41,10 @@ export interface CaseAvatar {
 export interface Case {
   avatar: CaseAvatar;
   id: string;
+  name?: string;
+  filePath?: string | null;
+  createdAt?: string;
+  updatedAt?: string;
   type: string;
   encryptionDay: number;
   status: PillVariant;

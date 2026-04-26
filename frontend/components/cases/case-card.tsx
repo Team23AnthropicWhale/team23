@@ -1,34 +1,61 @@
 import { Ionicons } from '@expo/vector-icons';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { DashboardColors } from '@/constants/dashboard-colors';
-import type { StoredCase } from '@/types/case';
+import type { AvatarVariant, Case, PillVariant } from '@/types/dashboard';
 
 interface Props {
-  item: StoredCase;
-  onPress: (item: StoredCase) => void;
-  onDelete: (item: StoredCase) => void;
+  item: Case;
+  onPress?: (item: Case) => void;
+  onDelete?: (item: Case) => void;
 }
 
-function getInitials(name: string | undefined): string {
-  return name?.trim().slice(0, 2).toUpperCase() || '??';
+function getAvatarColors(variant: AvatarVariant): { bg: string; text: string } {
+  switch (variant) {
+    case 'red': return { bg: DashboardColors.critical.avatarBg, text: DashboardColors.critical.avatarText };
+    case 'blue': return { bg: DashboardColors.info.avatarBg, text: DashboardColors.info.avatarText };
+    case 'amber': return { bg: DashboardColors.warning.avatarBg, text: DashboardColors.warning.avatarText };
+    case 'teal': return { bg: DashboardColors.success.avatarBg, text: DashboardColors.success.avatarText };
+  }
+}
+
+function getPillColors(status: PillVariant): { bg: string; text: string; label: string } {
+  switch (status) {
+    case 'urgent': return { bg: DashboardColors.critical.bg, text: DashboardColors.critical.text, label: 'Urgent' };
+    case 'active': return { bg: DashboardColors.info.bg, text: DashboardColors.info.text, label: 'Active' };
+    case 'pending': return { bg: DashboardColors.warning.bg, text: DashboardColors.warning.text, label: 'Pending' };
+    case 'closed': return { bg: '#EAF3DE', text: '#3B6D11', label: 'Closed' };
+  }
 }
 
 export function CaseCard({ item, onPress, onDelete }: Props) {
+  const avatarColors = getAvatarColors(item.avatar.variant);
+  const pill = getPillColors(item.status);
+
   return (
-    <TouchableOpacity style={styles.card} onPress={() => onPress(item)} activeOpacity={0.7}>
-      <View style={styles.avatar}>
-        <Text style={styles.avatarText}>{getInitials(item.name)}</Text>
+    <Pressable
+      style={({ pressed }) => [styles.card, pressed && onPress && styles.cardPressed]}
+      onPress={() => onPress?.(item)}>
+      <View style={[styles.avatar, { backgroundColor: avatarColors.bg }]}>
+        <Text style={[styles.avatarText, { color: avatarColors.text }]}>{item.avatar.initials}</Text>
       </View>
       <View style={styles.infoBlock}>
-        <Text style={styles.name} numberOfLines={1}>{item.name}</Text>
-        <Text style={styles.date}>Updated {new Date(item.updatedAt).toLocaleDateString()}</Text>
+        <Text style={styles.caseId}>{`${item.name} - ${item.id}`}</Text>
+        <Text style={styles.caseType} numberOfLines={1}>{item.type}</Text>
+        <View style={styles.lockRow}>
+          <Ionicons name="lock-closed" size={10} color={DashboardColors.textTertiary} />
+          <Text style={styles.encryptedText}>Encrypted · Day {item.encryptionDay}</Text>
+        </View>
       </View>
-      <TouchableOpacity onPress={() => onDelete(item)} hitSlop={8} style={styles.deleteBtn}>
-        <Ionicons name="trash-outline" size={18} color={DashboardColors.critical.bar} />
-      </TouchableOpacity>
-      <Ionicons name="chevron-forward" size={16} color={DashboardColors.textTertiary} />
-    </TouchableOpacity>
+      <View style={[styles.pill, { backgroundColor: pill.bg }]}>
+        <Text style={[styles.pillText, { color: pill.text }]}>{pill.label}</Text>
+      </View>
+      {onDelete && (
+        <Pressable onPress={() => onDelete(item)} hitSlop={8} style={styles.deleteBtn}>
+          <Ionicons name="trash-outline" size={18} color={DashboardColors.critical.bar} />
+        </Pressable>
+      )}
+    </Pressable>
   );
 }
 
@@ -44,32 +71,52 @@ const styles = StyleSheet.create({
     paddingHorizontal: 13,
     paddingVertical: 11,
   },
+  cardPressed: {
+    opacity: 0.75,
+  },
   avatar: {
     width: 34,
     height: 34,
     borderRadius: 17,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: DashboardColors.info.avatarBg,
     flexShrink: 0,
   },
   avatarText: {
     fontSize: 11,
     fontWeight: '500',
-    color: DashboardColors.info.avatarText,
   },
   infoBlock: {
     flex: 1,
     gap: 2,
   },
-  name: {
+  caseId: {
     fontSize: 13,
     fontWeight: '500',
     color: DashboardColors.textPrimary,
   },
-  date: {
+  caseType: {
     fontSize: 11,
+    color: DashboardColors.textSecondary,
+  },
+  lockRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+  },
+  encryptedText: {
+    fontSize: 10,
     color: DashboardColors.textTertiary,
+  },
+  pill: {
+    borderRadius: 999,
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    flexShrink: 0,
+  },
+  pillText: {
+    fontSize: 10,
+    fontWeight: '500',
   },
   deleteBtn: {
     padding: 4,
