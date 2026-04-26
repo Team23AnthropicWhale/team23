@@ -21,7 +21,7 @@ export function CaseCard({ item, onPress, onDelete }: Props) {
         <Text style={styles.avatarText}>{getInitials(item.name)}</Text>
       </View>
       <View style={styles.infoBlock}>
-        <Text style={styles.name} numberOfLines={1}>{item.name}</Text>
+        <Text style={styles.name} numberOfLines={1}>{`${item.name} - ${item.id}`}</Text>
         <Text style={styles.date}>Updated {new Date(item.updatedAt).toLocaleDateString()}</Text>
       </View>
       <TouchableOpacity onPress={() => onDelete(item)} hitSlop={8} style={styles.deleteBtn}>
