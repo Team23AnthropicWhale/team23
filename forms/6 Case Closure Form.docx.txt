@@ -1,0 +1,102 @@
+﻿1.  CASE INFORMATION 
+Date case closed  dd/mm/yyyy
+
+
+	 Case ID number 
+ 
+	Risk Level at Case Closure
+* Low 
+* Medium
+* High
+	Care Arrangement at Case Closure – please avoid editing drop down
+* Child in parental care
+* Child without care / no care arrangement
+* Child Carer 
+* Child in Child Headed Household
+* Child in institutional or residential care
+* Child in alternative care 
+   * Child in foster care  
+   * Child in kinship care/customary care 
+   * Child in other forms of family based care (such as Kafala);  
+   * Child in a supported independent living arrangement 
+* Other, specify ____________________ 
+	
+
+2. CLOSURE PROCESS 
+Date of meeting with supervisor dd/mm/yyyy
+
+
+	Date of meeting with the child, their parents or caregivers
+dd/mm/yyyy
+	Has the case closure been discussed and agreed with the child?
+* Yes   
+* No
+If not, specify why: 
+	Has the case closure been discussed and agreed with the parents or caregivers?
+* Yes
+* No 
+If not, specify why:
+	
+
+3. REASONS FOR CLOSURE 
+Primary reason for closing the case– please avoid editing drop down
+
+
+
+
+	* Overall goal of the case plan has been met, child is safe from harm, child’s care and wellbeing is supported and there are no additional concerns
+* Relocation of the child to other area
+* Lost contact with the child (wait at least 3 months before closing the case)
+
+
+	* Child/caregiver(s) no longer want support and there are no grounds to go against their wishes.
+* Death of the child
+* Case opened in error or case duplication
+* Other,  specify _____________
+
+
+	(Optional) Provide further details on reasons for case closure
+
+
+	
+
+	
+
+4. FEEDBACK AND SUPPORT 
+Date for final follow-up meeting in 3 months' time dd/mm/yyyy
+	How can the child be contacted? If not directly, specify through whom?
+	_   
+	Does the child provide consent or assent to be contacted for feedback
+	* Yes                       
+	* No  
+	* [N/A]  
+	               -  If no, include why
+	
+
+
+
+	
+
+	Does the parent/caregiver provide consent or assent to be contacted for feedback
+	* Yes                       
+	* No  
+	* [N/A]  
+	Child has been provided information  on how to contact case worker/oganization if any situation arises that may require further support. 
+* Yes 
+* No
+	Parent/caregiver has been provided information  on how to contact case worker/oganization if any situation arises that may require further support. 
+* Yes 
+* No 
+	
+
+5. AUTHORIZATION 
+
+
+Caseworker name 
+	 Date dd/mm/yyyy 
+	 Signature 
+
+
+	Supervisor name 
+	 Date dd/mm/yyyy
+	 Signature

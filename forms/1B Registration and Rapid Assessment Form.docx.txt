@@ -1,0 +1,535 @@
+﻿1B | Registration Form
+1. CASE INFORMATION
+Date case was identified dd/mm/yyyy
+
+
+ 
+	Date cases was registered dd/mm/yyyy
+	Data case was re-opened: dd/mm/yyyy
+(if case is re-opened update Registration Form sheet with relevant information)
+	Case ID
+	Caseworker ID
+	Agency
+	How was the child identified     
+please avoid editing dropdown 
+	* Self-referral child (him/herself)
+* Family member
+* Community member 
+* Media  
+* Other service provider, specify sector ______________
+	* UN/INGO/NGO, specify sector:
+* Education
+* Food security
+* Health
+* Livelihoods
+* Nutrition
+* Protection
+* Child Protection
+* GBV
+* Shelter
+* Camp Cord and Camp Mgmt
+* Water, sanitation, and hygiene (WASH)
+* Other ____________
+	
+
+2. CHILD PERSONAL DETAILS
+
+
+	First name 
+	 (Optional) Middle name / Father's name
+
+
+	Last name/ Family name 
+	Other names or spelling the child is known by
+
+
+	CHILD
+	Date of birth (DOB)
+ dd/mm/yyy
+Age ______, Is the age estimated? 
+* Yes
+* No
+	Sex - please avoid editing drop down
+* Male 
+* Female 
+* Non-binary
+* Other
+	Birth registration -  please avoid editing dropdown
+* Birth registered
+* Birth not registered
+* Birth registration process started but not completed
+
+
+	Does the child have identification (ID card)
+* Yes 
+* No
+If yes, specify type of identification and number: 
+Type   
+  
+
+Number
+
+
+	Nationality status – please avoid editing drop down 
+* National 
+* Other nationality
+* Stateless 
+* Unknown 
+	Displacement status - please avoid editing dropdown 
+
+
+* Host Community
+* Asylum seeker or refugee   
+* Internally displaced person   
+*  Returnee
+* Migrant
+* Other, specify 
+__________________
+	Nationality (create options for your context)
+	Disability status - please avoid editing drop down
+	* No disabilities 
+
+
+	* Child with disabilities (mark below if possible)
+* Mental impairments 
+* Sensory impairments
+* Physical impairments
+* Intellectual impairment
+* Other, specify_____________________
+	The child is 
+- please avoid editing drop down
+
+
+	* Not married
+* Planning to get married
+
+
+	* Marries
+* Divorced 
+* Widowed 
+	
+
+	(Optional) Child’s ethnic affiliation (create options for your context)
+	(Optional) Child’s religion (create options for your context)
+	 Languages spoken by the child (create options for your context)
+
+
+
+
+	
+
+	
+
+3. CHILD CURRENT CARE ARRANGEMENT/ LIVING ARRANGEMENTS
+Type of care 
+arrangement
+ - please avoid editing drop down
+	* Child in parental care
+* Child without care / no care arrangement
+* Child Carer 
+* Child in Child Headed Household
+* Child in institutional or residential care
+
+
+
+
+	* Child in alternative care
+* Child in foster care 
+* Child in kinship care/customary care
+* Child in other forms of family based care (such as Kafala); 
+* Child in a supported independent living arrangement
+* Other, specify ____________________
+	Describe the child's current care arrangement (For example, include information about the relationship with their caregiver, the ability of the caregiver to meet the needs of the child, etc. Note: if the child is in an alternative care arrangement, include information on how this arrangement was made, if it is permanent or temporary, etc.)
+
+
+
+
+
+
+	Current address 
+(Note down location, address, block, house or shelter number, etc.)
+
+
+
+
+
+
+	(Optional) Area of living- please avoid editing drop down
+* Urban – non camp
+* Rural – non camp
+* Camp/Settlement
+* Other 
+	How can the child be contacted? If not directly, specify through who. 
+ 
+	If available, include phone number (indicate If this is WhatsApp, Viber etc.)
+
+
+	
+
+If the child is not being cared for by one or both parents, provide personal details of the current caregiver
+	CAREGIVER
+	First name 
+	Middle name/ Father’s name 
+	Last name/ Family name 
+
+
+	Date of birth (DOB) of the caregiver 
+ ____ /______ /_____________
+Age ______, Is the age estimated? 
+* Yes
+* No
+	Sex of the caregiver - please avoid editing drop down
+* Male
+* Female
+* Non-binary
+* Other
+	Does the caregiver have identification (ID card)
+* Yes 
+* No
+If yes, specify type of identification and number: 
+Type   
+  
+
+Number
+
+
+	Nationality status  - please avoid editing drop down
+* National 
+* Other nationality
+* Stateless
+* Unknown 
+	Displacement status -please avoid editing drop down
+* Host Community
+* Asylum seeker or refugee   
+* Internally displaced person   
+*  Returnee
+* Migrant
+* Other, specify 
+__________________
+	Does the caregiver have any disabilities, health issues or other characteristics which can affect care for the child and therefore impact overall risk assessment? 
+
+
+	* No
+* Yes
+If yes, specify:_________________________
+
+
+	 Is the caregiver related to the child?    
+* Yes 
+* No
+	Relationship to the child? 
+
+
+	If not related does the caregiver know the family of the child? 
+* Yes 
+* No
+	When did this care arrangement start? 
+____ /______ /_____________
+	Is caregiver willing to continue taking care of the child? 
+* Yes 
+* No
+If not why? 
+	Is the caregiver also the legal guardian? 
+* Yes 
+* No
+
+
+	Caregiver’s phone / contact details:
+	
+
+Members of the household with whom the child is living with 
+	Full name
+	Age
+	Relationship to the child
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	Size of the household
+	
+
+
+
+	of adults
+	
+
+	
+
+
+
+	of children
+	
+
+	Is the age of the main caregiver under 18
+	* Yes
+	* No
+	
+
+4. CHILD PROTECTION RISKS
+Briefly describe the child’s situation and document additional observations which can support risk assessment?  (this can include care arrangements, health,….)
+	
+
+
+
+	*If this is a case of rape or sexual assault, make sure to address urgent needs that require an immediate response and check in with your supervisor for support
+	Child protection risks identified (select all that apply) - please avoid editing drop down, avoid adding any category which may be similar or part of these drop down categories 
+	Incidents
+* Physical violence or abuse against a child  
+* Psychological violence or abuse against a child
+* Sexual violence or abuse against a child *
+* Neglect of the child
+* Exploitation:
+* Economic exploitation
+* Harmful or hazardous labour
+* Sexual exploitation
+* Child in conflict with the law or detained
+* Recruitment and use by  armed forces and groups
+	Vulnerabilities
+* Unaccompanied  Child 
+* Separated Child  
+* Child marriage
+* Psychological distress  (moderate to severe)
+
+
+	Status in relation to the justice system        
+* No contact with the justice system        
+* Child in contact with the justice system         
+* The child is victim of an offence
+* The child is witness of an offence
+* The child is in conflict with the law
+* Child detained        
+	
+
+
+
+5. FAMILY DETAILS 
+
+
+	First name 
+	Middle name/Father’s name 
+
+
+	Last name/ Family name 
+
+
+
+
+	MOTHER
+	Is the mother alive? 
+* Yes
+* No
+* Don’t know
+	(Optional) If the mother is deceased it is optional to note when and how she passed.
+	Nationality status - please avoid editing drop down
+* National 
+* Other nationality
+* Stateless 
+* Unknown 
+	Displacement status - please avoid editing drop down
+* Host Community
+* Asylum seeker or refugee   
+* Internally displaced person   
+*  Returnee
+* Migrant
+* Other, specify 
+__________________
+	Does the MOTHER have any disabilities, health issues or other characteristics which can affect care for the child and therefore impact overall risk assessment? 
+
+
+	* No
+* Yes
+If yes, specify _________________________
+
+
+	If the mother is not living with the child, is the child in contact with the mother
+* Yes
+* No
+	How can the mother be contacted?  If not directly, specify through who
+	Date of birth (DOB) 
+ dd/mm/yyyy
+Age ______, Is the age estimated? 
+* Yes
+* No
+	Does the mother have identification (ID card)
+* Yes 
+* No
+If yes, specify type of identification and number: 
+Type   
+  
+
+Number
+
+
+	FATHER
+	First name 
+	Middle name/Father’s name 
+
+
+	Last name/ Family name 
+
+
+	Is the father alive? 
+* Yes
+* No
+* Don’t know
+	(Optional) If the father is deceased it is optional to note when and how he passed: 
+	Nationality - please avoid editing drop down
+* National 
+* Other nationality
+* Stateless 
+* Unknown
+	Displacement status - please avoid editing drop down
+* National (not displaced)
+* Stateless
+* Asylum seeker or refugee   
+* Internally displaced person            
+* Returnee
+* Migrant
+* Other, please specify: 
+
+
+	Does the FATHER have any disabilities, health issues or other characteristics which can affect care for the child and therefore impact overall risk assessment? 
+
+
+	* No
+* Yes
+If yes, specify ________________________
+
+
+	If the father is not living with the child, is the child in contact with the mother?
+* Yes
+* No
+	How can the father be contacted? 
+If not directly, specify through who
+	Date of birth (DOB) 
+ ____ /______ /_____________
+Age ______, Is the age estimated? 
+* Yes
+* No
+	Does the father have identification (ID card)?
+* Yes 
+* No
+If yes, specify type of identification and number: 
+Type   
+  
+
+Number
+
+
+	Members of the immediate family (brothers, sisters, stepmother, stepfather, etc.) 
+	Full name
+	Age
+	Relationship to the child
+	Address or their current whereabouts
+	
+
+
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+6. URGENT NEEDS
+Are there any urgent needs that require an immediate response (as soon as possible) within 24 – 48 hours) from the caseworker and/or other service providers (for example immediate safety, safety within care arrangement, urgent mental health needs, physical, sexual and reproductive health needs, basic needs essential for survival, documentation, care arrangement).  
+	* Yes
+	* No
+	Does the child need Family Tracing?
+
+
+	* Yes     
+	
+
+IMEMDIATED NEEDS TO BE ADRESSED (only fill out what is relevant) 
+	Tick all that apply
+	Immediated needs 
+	Sumary Reasons 
+	Immediate Action (to be) Taken 
+	
+
+	Health 
+	
+
+	
+
+	
+
+	Safety 
+	
+
+	
+
+	
+
+	Care 
+	
+
+	
+
+	
+
+	Other, specify 
+	
+
+	
+
+	
+
+	No immediate needs 
+	
+
+	
+
+	
+
+7. RISK LEVEL
+
+
+RISK LEVEL  - please avoid
+editing drop downs 
+	* High 
+	* Medium
+	* Low 
+	Summary of reasons for risk level 
+ 
+	
+
+8. AUTHORIZATION
+      Caseworker name
+	    Date dd/mm/yyyy
+	     Signature
