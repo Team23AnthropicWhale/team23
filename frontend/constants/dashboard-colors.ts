@@ -17,11 +17,11 @@ export const DashboardColors = {
     dot: '#EF9F27',
   },
   info: {
-    text: '#185FA5',
-    bg: '#E6F1FB',
-    bar: '#378ADD',
-    avatarBg: '#E6F1FB',
-    avatarText: '#185FA5',
+    text: '#A32D2D',
+    bg: '#FCEBEB',
+    bar: '#E24B4A',
+    avatarBg: '#FCEBEB',
+    avatarText: '#A32D2D',
   },
   success: {
     text: '#0F6E56',
@@ -36,13 +36,13 @@ export const DashboardColors = {
   textSecondary: '#555555',
   textTertiary: '#888888',
   tabBar: {
-    activeTint: '#185FA5',
+    activeTint: '#A32D2D',
     inactiveTint: '#888888',
     background: '#FFFFFF',
     border: 'rgba(0,0,0,0.12)',
   },
   fab: {
-    background: '#185FA5',
+    background: '#A32D2D',
     icon: '#FFFFFF',
     border: '#FFFFFF',
   },

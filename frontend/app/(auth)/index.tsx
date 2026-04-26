@@ -126,7 +126,7 @@ export default function LoginScreen() {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: '#0D3B6E',
+    backgroundColor: '#6B1414',
   },
   flex: {
     flex: 1,
@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     height: 260,
-    backgroundColor: '#0D3B6E',
+    backgroundColor: '#6B1414',
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: 40,
