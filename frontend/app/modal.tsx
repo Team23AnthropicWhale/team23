@@ -6,8 +6,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { FormWizard } from '@/components/forms/form-wizard';
 import { DashboardColors } from '@/constants/dashboard-colors';
+import { useCases } from '@/context/case-context';
 import { FORMS } from '@/data/forms';
-import { createCase } from '@/services/caseService';
 import { convertFormToCSV, generateCaseId, writeCaseCSV } from '@/services/csvService';
 import type { FormDefinition, FormValues } from '@/types/form';
 
@@ -19,6 +19,7 @@ const FORM_DESCRIPTIONS: Record<string, string> = {
 
 export default function ModalScreen() {
   const router = useRouter();
+  const { createCase } = useCases();
   const [activeForm, setActiveForm] = useState<FormDefinition | null>(null);
 
   const handleFormSubmit = async (values: FormValues) => {

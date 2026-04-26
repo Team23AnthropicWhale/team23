@@ -69,18 +69,18 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
   const [token, setToken] = useState<string | null>(null);
 
   const login = async (email: string, password: string): Promise<AppUser> => {
-    //const { user: appUser, token: authToken } = await authenticate(email, password);
+    const { user: appUser, token: authToken } = await authenticate(email, password);
 
-    const appUser: AppUser = {
+    /* const appUser: AppUser = {
       email: "test@team23",
       name: "brian Jacobs",
       role: "user",
       sector: "Sector A",
       avatarInitials: "BJ",
-    }
+    } */
 
     setUser(appUser);
-    //setToken(authToken);
+    setToken(authToken);
     return appUser;
   };
 

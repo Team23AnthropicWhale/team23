@@ -11,7 +11,7 @@ import type { StoredCase } from '@/types/case';
 interface CaseContextType {
   cases: StoredCase[];
   loading: boolean;
-  createCase: (name: string, initialCsv?: string) => Promise<StoredCase>;
+  createCase: (id: string, name: string, filePath: string | null) => Promise<StoredCase>;
   updateCaseName: (id: string, name: string) => Promise<StoredCase>;
   deleteCase: (id: string) => Promise<void>;
   refresh: () => Promise<void>;
@@ -32,8 +32,8 @@ export function CaseProvider({ children }: { children: React.ReactNode }) {
     refresh().finally(() => setLoading(false));
   }, []);
 
-  async function createCase(name: string, initialCsv?: string): Promise<StoredCase> {
-    const c = await svcCreateCase(name, initialCsv);
+  async function createCase(id: string, name: string, filePath: string | null): Promise<StoredCase> {
+    const c = await svcCreateCase(id, name, filePath);
     await refresh();
     return c;
   }

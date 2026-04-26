@@ -7,6 +7,7 @@ import { CaseCard } from '@/components/cases/case-card';
 import { CreateCaseModal } from '@/components/cases/create-case-modal';
 import { DashboardColors } from '@/constants/dashboard-colors';
 import { useCases } from '@/context/case-context';
+import { generateCaseId } from '@/services/csvService';
 import type { StoredCase } from '@/types/case';
 
 export default function CasesScreen() {
@@ -16,7 +17,7 @@ export default function CasesScreen() {
   async function handleCreate(name: string) {
     setModalVisible(false);
     try {
-      await createCase(name);
+      await createCase(generateCaseId(), name, null);
     } catch {
       Alert.alert('Error', 'Could not create case.');
     }
