@@ -1,4 +1,8 @@
 import { createContext, useContext, useState } from 'react';
+import { Platform } from 'react-native';
+import * as Device from 'expo-device';
+
+import { base_url } from '@/constants/configs';
 
 export type UserRole = 'user' | 'supervisor';
 
@@ -12,37 +16,72 @@ export interface AppUser {
 
 interface UserContextType {
   user: AppUser | null;
+  token: string | null;
   login: (email: string, password: string) => Promise<AppUser>;
   logout: () => void;
 }
 
 const UserContext = createContext<UserContextType | null>(null);
 
-async function mockAuthenticate(email: string, _password: string): Promise<AppUser> {
-  await new Promise((r) => setTimeout(r, 700));
-  const isSupervisor = email.toLowerCase().includes('supervisor');
+function getDeviceName(): string {
+  const name = Device.deviceName ?? Device.modelName;
+  if (name) return name;
+  return `${Platform.OS}-app`;
+}
+
+async function authenticate(email: string, password: string): Promise<{ user: AppUser; token: string }> {
+  const response = await fetch(`${base_url}/api/auth/login`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+    body: JSON.stringify({ email, password, device_name: getDeviceName() }),
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message ?? 'Authentication failed');
+  }
+
+  const data = await response.json();
+  const initials = (data.user.name as string)
+    .split(' ')
+    .map((n: string) => n[0])
+    .join('')
+    .toUpperCase()
+    .slice(0, 2);
+
   return {
-    email,
-    name: isSupervisor ? 'Supervisor' : 'Field Worker',
-    role: isSupervisor ? 'supervisor' : 'user',
-    sector: 'Sector B',
-    avatarInitials: isSupervisor ? 'SV' : 'FW',
+    token: data.token,
+    user: {
+      email: data.user.email,
+      name: data.user.name,
+      role: data.user.user_type === 'supervisor' ? 'supervisor' : 'user',
+      sector: 'Sector B',
+      avatarInitials: initials,
+    },
   };
 }
 
 export function UserProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<AppUser | null>(null);
+  const [token, setToken] = useState<string | null>(null);
 
   const login = async (email: string, password: string): Promise<AppUser> => {
-    const appUser = await mockAuthenticate(email, password);
+    const { user: appUser, token: authToken } = await authenticate(email, password);
     setUser(appUser);
+    setToken(authToken);
     return appUser;
   };
 
-  const logout = () => setUser(null);
+  const logout = () => {
+    setUser(null);
+    setToken(null);
+  };
 
   return (
-    <UserContext.Provider value={{ user, login, logout }}>
+    <UserContext.Provider value={{ user, token, login, logout }}>
       {children}
     </UserContext.Provider>
   );

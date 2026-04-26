@@ -25,8 +25,9 @@ export interface Metric {
 }
 
 export interface Task {
-  urgency: UrgencyLevel;
   id: string;
+  filePath?: string;
+  urgency: UrgencyLevel;
   title: string;
   subtitle: string;
   time: string;
@@ -43,4 +44,8 @@ export interface Case {
   type: string;
   encryptionDay: number;
   status: PillVariant;
+  alertLevel?: UrgencyLevel;
+  alertIssue?: string;
+  worker?: string;
+  sector?: string;
 }

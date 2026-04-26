@@ -1,9 +1,14 @@
 import { Ionicons } from '@expo/vector-icons';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { useState } from 'react';
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { DashboardColors } from '@/constants/dashboard-colors';
 import type { AppUser } from '@/context/user-context';
+import { AlertBanner } from './alert-banner';
+import { MOCK_ALERT, MOCK_APPROVALS, MOCK_SUPERVISOR_CASES } from '@/data/mock-dashboard';
+import { useUser } from '@/context/user-context';
+import { ProfileMenu } from './profile-menu';
 
 const SECTOR_STATS = [
   { label: 'Active workers', value: 8, color: 'blue' as const },
@@ -12,11 +17,7 @@ const SECTOR_STATS = [
   { label: 'Closed this month', value: 41, color: 'green' as const },
 ];
 
-const WORKER_ALERTS = [
-  { worker: 'FW-01', sector: 'Sector A', issue: 'Overdue visit — CP-0312', level: 'red' as const },
-  { worker: 'FW-05', sector: 'Sector B', issue: 'Form incomplete — CP-0441', level: 'amber' as const },
-  { worker: 'FW-07', sector: 'Sector C', issue: 'Referral awaiting sign-off', level: 'amber' as const },
-];
+const alertCases = MOCK_SUPERVISOR_CASES.filter(c => c.alertLevel);
 
 const COLOR_MAP = {
   red: DashboardColors.critical,
@@ -31,6 +32,9 @@ interface Props {
 }
 
 export function SupervisorDashboard({ user }: Props) {
+  const { logout } = useUser();
+  const [menuVisible, setMenuVisible] = useState(false);
+
   return (
     <SafeAreaView style={styles.safeArea} edges={['top']}>
       <View style={styles.header}>
@@ -38,18 +42,29 @@ export function SupervisorDashboard({ user }: Props) {
           <Text style={styles.greeting}>{user.name}</Text>
           <Text style={styles.role}>Supervisor · {user.sector}</Text>
         </View>
-        <View style={styles.avatar}>
+        <TouchableOpacity
+          style={styles.avatar}
+          onPress={() => setMenuVisible(true)}
+          activeOpacity={0.8}>
           <Text style={styles.avatarText}>{user.avatarInitials}</Text>
-        </View>
+        </TouchableOpacity>
       </View>
+      <ProfileMenu
+        user={user}
+        visible={menuVisible}
+        onClose={() => setMenuVisible(false)}
+        onLogout={logout}
+      />
 
       <ScrollView
         style={styles.scroll}
         contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}>
 
+        <AlertBanner alert={MOCK_ALERT} />
+
         <View style={styles.sectionHeader}>
-          <Text style={styles.sectionLabel}>SECTOR OVERVIEW</Text>
+          <Text style={styles.sectionLabel}>DASHBOARD</Text>
         </View>
 
         <View style={styles.statsGrid}>
@@ -69,14 +84,14 @@ export function SupervisorDashboard({ user }: Props) {
         </View>
 
         <View style={styles.alertsCard}>
-          {WORKER_ALERTS.map((alert, i) => {
-            const colors = COLOR_MAP[alert.level];
+          {alertCases.map((c, i) => {
+            const colors = COLOR_MAP[c.alertLevel!];
             return (
-              <View key={i} style={[styles.alertRow, i < WORKER_ALERTS.length - 1 && styles.alertRowBorder]}>
+              <View key={c.id} style={[styles.alertRow, i < alertCases.length - 1 && styles.alertRowBorder]}>
                 <View style={[styles.alertBar, { backgroundColor: colors.text }]} />
                 <View style={styles.alertInfo}>
-                  <Text style={styles.alertWorker}>{alert.worker} · {alert.sector}</Text>
-                  <Text style={styles.alertIssue}>{alert.issue}</Text>
+                  <Text style={styles.alertWorker}>{c.worker} · {c.sector}</Text>
+                  <Text style={styles.alertIssue}>{c.alertIssue} — {c.id}</Text>
                 </View>
                 <Ionicons name="chevron-forward" size={16} color={DashboardColors.textTertiary} />
               </View>
@@ -85,16 +100,20 @@ export function SupervisorDashboard({ user }: Props) {
         </View>
 
         <View style={styles.sectionHeader}>
-          <Text style={styles.sectionLabel}>PENDING APPROVALS</Text>
+          <Text style={styles.sectionLabel}>PENDING APPROVALS ({MOCK_APPROVALS.length})</Text>
         </View>
 
-        <View style={styles.approvalCard}>
-          <Ionicons name="document-text-outline" size={20} color={DashboardColors.info.text} />
-          <View style={styles.approvalInfo}>
-            <Text style={styles.approvalTitle}>3 referrals awaiting sign-off</Text>
-            <Text style={styles.approvalSub}>Tap to review and approve</Text>
-          </View>
-          <Ionicons name="chevron-forward" size={16} color={DashboardColors.textTertiary} />
+        <View style={styles.alertsCard}>
+          {MOCK_APPROVALS.map((approval, i) => (
+            <View key={approval.id} style={[styles.alertRow, i < MOCK_APPROVALS.length - 1 && styles.alertRowBorder]}>
+              <View style={[styles.alertBar, { backgroundColor: DashboardColors.info.text }]} />
+              <View style={styles.alertInfo}>
+                <Text style={styles.alertWorker}>{approval.caseId} · {approval.type}</Text>
+                <Text style={styles.alertIssue}>{approval.worker} · {approval.submittedAt}</Text>
+              </View>
+              <Ionicons name="chevron-forward" size={16} color={DashboardColors.textTertiary} />
+            </View>
+          ))}
         </View>
 
       </ScrollView>
@@ -219,29 +238,5 @@ const styles = StyleSheet.create({
   alertIssue: {
     fontSize: 11,
     color: DashboardColors.textSecondary,
-  },
-  approvalCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 12,
-    backgroundColor: DashboardColors.info.bg,
-    borderWidth: 0.5,
-    borderColor: DashboardColors.border,
-    borderRadius: 8,
-    paddingHorizontal: 14,
-    paddingVertical: 14,
-  },
-  approvalInfo: {
-    flex: 1,
-    gap: 2,
-  },
-  approvalTitle: {
-    fontSize: 13,
-    fontWeight: '500',
-    color: DashboardColors.info.text,
-  },
-  approvalSub: {
-    fontSize: 11,
-    color: DashboardColors.info.text,
   },
 });
