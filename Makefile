@@ -10,7 +10,7 @@ restart:
 logs:
 	docker compose logs -f
 
-backend:
+sh-backend:
 	docker exec -it app-backend sh
 
 db-fresh:
