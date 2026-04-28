@@ -2,7 +2,7 @@
 
 Mobile-first case management for child protection field workers of War Child. Built for humanitarian contexts where internet access is unreliable or unavailable: cases are captured on-device, stored encrypted at rest, and transferred to a supervisor either over a local network or directly between devices.
 
-Developed at the [Whale x Anthropic](https://www.whale-academy.com/hackathon). Built entirely with Claude Code by Team23: 
+Developed at the [Whale x Anthropic hackathon](https://www.whale-academy.com/hackathon) ([Event link on Luma](https://luma.com/whale-hackathon)). Built entirely with Claude Code by Team23: 
 * [Quinten van der Laan](https://github.com/qvanderlaan)
 * [Brian Jacobs](https://github.com/bjacobs42) 
 * [Ally Alombro](https://github.com/ft-ally)
